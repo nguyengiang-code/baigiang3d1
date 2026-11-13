@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Khám phá khối lập phương | Bài giảng điện tử</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #193451; background: #f2f6fb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-size: 18px; line-height: 1.6; }
+    main { max-width: 1060px; margin: auto; padding: 36px 22px 48px; }
+    header { padding: 32px; border-radius: 24px; background: #153957; color: white; }
+    .tag { margin: 0 0 12px; color: #a5e7de; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
+    h1 { margin: 0 0 12px; font-size: clamp(28px, 5vw, 46px); line-height: 1.2; }
+    header p:last-child { margin-bottom: 0; max-width: 680px; color: #e3eef7; }
+    h2 { font-size: 23px; margin: 0 0 12px; line-height: 1.4; }
+    p { margin: 8px 0 16px; }
+    .grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; margin-top: 22px; }
+    section { min-width: 0; background: white; padding: 26px; border: 1px solid #dbe4ee; border-radius: 20px; }
+    .stage { display: grid; place-items: center; height: 290px; overflow: hidden; perspective: 850px; background: #edf6fc; border-radius: 14px; margin: 18px 0; }
+    .cube { --x: -20deg; --y: -30deg; position: relative; width: 160px; height: 160px; transform-style: preserve-3d; transform: rotateX(var(--x)) rotateY(var(--y)); }
+    .face { position: absolute; inset: 0; display: grid; place-items: center; border: 2px solid white; color: white; font-size: 38px; font-weight: bold; backface-visibility: hidden; }
+    .front { background: #147b9a; transform: translateZ(80px); }
+    .back { background: #b4496f; transform: rotateY(180deg) translateZ(80px); }
+    .right { background: #27569b; transform: rotateY(90deg) translateZ(80px); }
+    .left { background: #35796a; transform: rotateY(-90deg) translateZ(80px); }
+    .top { background: #7352a2; transform: rotateX(90deg) translateZ(80px); }
+    .bottom { background: #a4551e; transform: rotateX(-90deg) translateZ(80px); }
+    .control { display: block; font-size: 16px; font-weight: bold; margin-top: 12px; }
+    input[type="range"] { display: block; width: 100%; accent-color: #147b9a; margin: 12px 0 18px; }
+    button { border: 0; border-radius: 10px; padding: 12px 18px; background: #153957; color: white; font: inherit; cursor: pointer; }
+    button:hover { background: #215b7c; }
+    :focus-visible { outline: 3px solid #b16c00; outline-offset: 4px; }
+    ol { padding-left: 24px; }
+    li { margin: 8px 0; }
+    .quiz { margin-top: 22px; }
+    fieldset { border: 0; margin: 0; padding: 0; }
+    legend { font-weight: bold; margin-bottom: 14px; }
+    .answers { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .answer { cursor: pointer; border: 1px solid #c7d7e5; padding: 10px 18px; border-radius: 10px; }
+    input[type="radio"] { accent-color: #147b9a; }
+    #feedback { margin-bottom: 0; font-weight: bold; }
+    #feedback:empty { display: none; }
+    .muted { color: #50657a; font-size: 16px; }
+    footer { text-align: center; color: #50657a; font-size: 15px; margin-top: 25px; }
+    @media (max-width: 720px) {
+      main { padding: 18px 14px 30px; }
+      header, section { padding: 22px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- Thay tên bài và lời giới thiệu tại đây. -->
+    <header>
+      <p class="tag">QUAN SÁT · KHÁM PHÁ · LUYỆN TẬP</p>
+      <h1>Khám phá khối lập phương</h1>
+      <p>Thay đổi góc nhìn để quan sát các mặt, sau đó trả lời câu hỏi và giải thích bằng lời của em.</p>
+    </header>
+
+    <div class="grid">
+      <section aria-labelledby="model-title">
+        <h2 id="model-title">1. Quan sát mô hình</h2>
+        <p class="muted">Kéo hai thanh trượt để nhìn khối lập phương từ các phía. Mỗi mặt được đánh một số khác nhau.</p>
+        <div class="stage" aria-hidden="true">
+          <div class="cube" id="cube">
+            <div class="face front">1</div>
+            <div class="face back">2</div>
+            <div class="face right">3</div>
+            <div class="face left">4</div>
+            <div class="face top">5</div>
+            <div class="face bottom">6</div>
+          </div>
+        </div>
+        <label class="control" for="angle-y">Xoay ngang: <output id="value-y" for="angle-y">-30°</output></label>
+        <input id="angle-y" type="range" min="-180" max="180" step="5" value="-30">
+        <label class="control" for="angle-x">Xoay dọc: <output id="value-x" for="angle-x">-20°</output></label>
+        <input id="angle-x" type="range" min="-180" max="180" step="5" value="-20">
+        <button id="reset" type="button">Về góc nhìn ban đầu</button>
+      </section>
+
+      <!-- Thay mục tiêu và nhiệm vụ học tập tại đây. -->
+      <section aria-labelledby="tasks-title">
+        <h2 id="tasks-title">2. Nhiệm vụ khám phá</h2>
+        <p><strong>Mục tiêu:</strong> Nhận biết đặc điểm các mặt của khối lập phương.</p>
+        <ol>
+          <li>Xoay mô hình và tìm đủ các mặt được đánh số từ 1 đến 6.</li>
+          <li>Cho biết mỗi mặt có hình gì.</li>
+          <li>Giải thích vì sao ở góc nhìn ban đầu em chưa thấy đủ tất cả các mặt.</li>
+        </ol>
+        <p class="muted">Hãy trao đổi với bạn trước khi chuyển sang câu hỏi luyện tập.</p>
+      </section>
+    </div>
+
+    <!-- Khi thay câu hỏi, sửa cả phần đáp án trong JavaScript bên dưới. -->
+    <section class="quiz" aria-labelledby="quiz-title">
+      <h2 id="quiz-title">3. Luyện tập</h2>
+      <form id="quiz-form">
+        <fieldset>
+          <legend>Khối lập phương có tất cả bao nhiêu mặt?</legend>
+          <div class="answers">
+            <label class="answer"><input type="radio" name="answer" value="4" required> 4 mặt</label>
+            <label class="answer"><input type="radio" name="answer" value="6"> 6 mặt</label>
+            <label class="answer"><input type="radio" name="answer" value="8"> 8 mặt</label>
+          </div>
+        </fieldset>
+        <button type="submit">Kiểm tra đáp án</button>
+        <p id="feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <footer>Bài giảng điện tử tương tác · Học qua quan sát và thực hành</footer>
+  </main>
+  <script>
+    const cube = document.getElementById('cube');
+    const x = document.getElementById('angle-x');
+    const y = document.getElementById('angle-y');
+    function updateView() {
+      cube.style.setProperty('--x', x.value + 'deg');
+      cube.style.setProperty('--y', y.value + 'deg');
+      document.getElementById('value-x').textContent = x.value + '°';
+      document.getElementById('value-y').textContent = y.value + '°';
+    }
+    x.addEventListener('input', updateView);
+    y.addEventListener('input', updateView);
+    document.getElementById('reset').addEventListener('click', function () {
+      x.value = -20;
+      y.value = -30;
+      updateView();
+    });
+    document.getElementById('quiz-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const answer = new FormData(event.currentTarget).get('answer');
+      const feedback = document.getElementById('feedback');
+      const correct = answer === '6';
+      feedback.textContent = correct
+        ? 'Chính xác! Khối lập phương có 6 mặt, đều là hình vuông bằng nhau.'
+        : 'Em hãy thử lại. Xoay mô hình để tìm đủ các mặt đánh số từ 1 đến 6.';
+      feedback.style.color = correct ? '#17663e' : '#9c4414';
+    });
+  </script>
+</body>
+</html>
